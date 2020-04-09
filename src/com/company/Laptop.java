@@ -4,7 +4,7 @@ public class Laptop {
 
     private float pos_x, pos_y, range;
 
-    public Laptop(int pos_x, int pos_y, int range) {
+    public Laptop(float pos_x, float pos_y, float range) {
         this.pos_x = pos_x;
         this.pos_y = pos_y;
         this.range = range;
