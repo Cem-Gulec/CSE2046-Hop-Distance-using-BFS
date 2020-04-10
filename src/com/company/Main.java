@@ -40,6 +40,39 @@ public class Main {
 
         System.out.println(main.calculate_distance(laptop_array.get(1).getPos_x(), laptop_array.get(1).getPos_y(),
                 laptop_array.get(2).getPos_x(), laptop_array.get(2).getPos_y()));
+
+        System.out.println("baglanti:> " + main.is_in_range(2,2));
+    }
+
+    public int is_in_range(int index_1, int index_2){
+
+        //position values depending on the laptop number
+        double index1_posx = laptop_array.get(index_1).getPos_x();
+        double index1_posy = laptop_array.get(index_1).getPos_y();
+        double index2_posx = laptop_array.get(index_2).getPos_x();
+        double index2_posy = laptop_array.get(index_2).getPos_y();
+
+        //range value depending on the laptop number
+        double index1_r = laptop_array.get(index_1).getRange();
+        double index2_r = laptop_array.get(index_2).getRange();
+
+        double distance = calculate_distance(index1_posx, index1_posy,
+                                            index2_posx, index2_posy);
+
+        //Seperate circles: d > r1+r2
+        if(distance > index1_r+index2_r) return 0;
+
+        //Outer tangency between circles: d = r1+r2
+        else if(distance == index1_r+index2_r) return 1;
+
+        //Intersecting circles: |r1-r2| < d < |r1+r2|
+        else if((Math.abs(index1_r-index2_r) < distance) &&
+                distance < Math.abs(index1_r+index2_r)) return 1;
+
+        //Containing within each other: d < |r1-r2|
+        else if(distance < Math.abs(index1_r-index2_r)) return 1;
+
+        return 0;
     }
 
     public double calculate_distance(double x_1, double y_1, double x_2, double y_2){
@@ -50,7 +83,7 @@ public class Main {
 
         BufferedReader reader;
         try{
-            reader = new BufferedReader(new FileReader("test5.txt"));
+            reader = new BufferedReader(new FileReader("test1.txt"));
             String line = reader.readLine();
             while(line != null){
                 //skipping lines containing explanation

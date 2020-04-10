@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.LinkedList;
 
-public class Graph {
+public class Graph{
 
     private int V;   // No. of vertices
     private LinkedList<Integer> adj[]; //Adjacency Lists
@@ -16,7 +16,7 @@ public class Graph {
     }
 
     // Function to add an edge into the graph
-    void addEdge(int v,int w) {
+    void addEdge(int v, int w){
         adj[v].add(w);
     }
 
