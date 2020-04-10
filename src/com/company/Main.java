@@ -1,6 +1,7 @@
 package com.company;
 import java.util.*;
 import java.io.*;
+import java.lang.Math;
 
 public class Main {
 
@@ -27,21 +28,29 @@ public class Main {
 
         num_computers = Integer.parseInt(file_elements.get(0));
 
+        //creating laptop objects and storing them into an arraylist
         for(int i = 1; i < file_elements.size(); i+=3){
-            laptop_array.add(new Laptop(Float.parseFloat(file_elements.get(i)),
-                    Float.parseFloat(file_elements.get(i+1)),
-                    Float.parseFloat(file_elements.get(i+2))));
+            laptop_array.add(new Laptop(Double.parseDouble(file_elements.get(i)),
+                    Double.parseDouble(file_elements.get(i+1)),
+                    Double.parseDouble(file_elements.get(i+2))));
         }
 
         for(Laptop l: laptop_array)
-            System.out.println(l.getPos_x() + " " + l.getPos_y() + " " + l.getRange());
+            System.out.println(l.getPos_x() + "  " + l.getPos_y() + "  " + l.getRange());
+
+        System.out.println(main.calculate_distance(laptop_array.get(1).getPos_x(), laptop_array.get(1).getPos_y(),
+                laptop_array.get(2).getPos_x(), laptop_array.get(2).getPos_y()));
+    }
+
+    public double calculate_distance(double x_1, double y_1, double x_2, double y_2){
+        return Math.sqrt( Math.pow(Math.abs(x_2-x_1), 2) + Math.pow(Math.abs(y_2-y_1), 2) );
     }
 
     public void read_file(){
 
         BufferedReader reader;
         try{
-            reader = new BufferedReader(new FileReader("test1.txt"));
+            reader = new BufferedReader(new FileReader("test5.txt"));
             String line = reader.readLine();
             while(line != null){
                 //skipping lines containing explanation
@@ -59,7 +68,5 @@ public class Main {
         catch(IOException e) {
             e.printStackTrace();
         }
-        //this was to remove space which was indicated as an element
-        file_elements.remove(file_elements.size()-1);
     }
 }

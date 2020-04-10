@@ -2,15 +2,15 @@ package com.company;
 
 public class Laptop {
 
-    private float pos_x, pos_y, range;
+    private double pos_x, pos_y, range;
 
-    public Laptop(float pos_x, float pos_y, float range) {
+    public Laptop(double pos_x, double pos_y, double range) {
         this.pos_x = pos_x;
         this.pos_y = pos_y;
         this.range = range;
     }
 
-    public float getPos_x() {
+    public double getPos_x() {
         return pos_x;
     }
 
@@ -18,7 +18,7 @@ public class Laptop {
         this.pos_x = pos_x;
     }
 
-    public float getPos_y() {
+    public double getPos_y() {
         return pos_y;
     }
 
@@ -26,7 +26,7 @@ public class Laptop {
         this.pos_y = pos_y;
     }
 
-    public float getRange() {
+    public double getRange() {
         return range;
     }
 
