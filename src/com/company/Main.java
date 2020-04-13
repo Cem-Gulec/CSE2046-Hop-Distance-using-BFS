@@ -41,7 +41,13 @@ public class Main {
         System.out.println(main.calculate_distance(laptop_array.get(1).getPos_x(), laptop_array.get(1).getPos_y(),
                 laptop_array.get(2).getPos_x(), laptop_array.get(2).getPos_y()));
 
-        System.out.println("baglanti:> " + main.is_in_range(2,2));
+        Graph graph = new Graph(num_computers);
+
+        for(int i = 0; i < num_computers; i++)
+            for(int j = i; j < num_computers; j++)
+                if(main.is_in_range(i,j) == 1) graph.add_edge(i,j);
+
+        graph.printAdjacencyList();
     }
 
     public int is_in_range(int index_1, int index_2){
@@ -83,7 +89,7 @@ public class Main {
 
         BufferedReader reader;
         try{
-            reader = new BufferedReader(new FileReader("test1.txt"));
+            reader = new BufferedReader(new FileReader("test3.txt"));
             String line = reader.readLine();
             while(line != null){
                 //skipping lines containing explanation
