@@ -8,6 +8,8 @@ public class Main {
     //our array lists which hold laptop elements and elements read from the txt
     public static ArrayList<String> file_elements = new ArrayList<>();
     public static ArrayList<Laptop> laptop_array = new ArrayList<>();
+    public static boolean[] visited;
+    public static int[] levels;
 
     public static void main(String[] args) throws IOException{
 
@@ -42,6 +44,12 @@ public class Main {
         //creating an instance of our graph representation
         //which consists vertices depending on the number of laptops
         Graph graph = new Graph(num_laptops);
+        visited = new boolean[graph.V];
+        levels = new int[graph.V];
+
+        //initializing visited as full of false
+        Arrays.fill(visited, Boolean.FALSE);
+        Arrays.fill(levels, 0);
 
         //if we checked, for example range between 1 and 2, we don't need to check again
         //so second loop is started from i to avoid this
@@ -53,6 +61,50 @@ public class Main {
 
         //simply getting the information of which vertices connected to which ones
         graph.printAdjacencyList();
+
+        main.BFS_traverse(graph.adj_list);
+
+        for(int i = 0; i < levels.length; i++)
+            System.out.println(levels[i]);
+    }
+
+    public int neighbour_exist(List<List<Integer>> adj_list, int index){
+
+        for(int e: adj_list.get(index))
+            if(visited[e] == Boolean.FALSE) return 1;
+
+            return 0;
+    }
+
+    public void BFS_traverse(List<List<Integer>> adj_list){
+
+        int level = 0;
+        Queue<Integer> queue = new LinkedList<>();
+
+        levels[0] = level;
+        queue.add(0);
+
+        //while there is still node to be visited
+        while(!queue.isEmpty()){
+            int head = queue.peek();
+
+            visited[head] = Boolean.TRUE;
+            if(neighbour_exist(adj_list, head) == 1)
+                if(levels[head] != 0 && queue.contains(head))
+                    level = levels[head]+1;
+                else
+                    level += 1;
+
+            for(int e: adj_list.get(head)){
+                if(visited[e] == Boolean.FALSE && levels[e] == 0){
+                    queue.add(e);
+                    levels[e] = level;
+                }
+
+            }
+            queue.remove();
+
+        }
     }
 
     //this function calculates whether 2 laptops in the same range or not depending on mathmetical formulas explained below
@@ -98,7 +150,7 @@ public class Main {
 
         BufferedReader reader;
         try{
-            reader = new BufferedReader(new FileReader("test3.txt"));
+            reader = new BufferedReader(new FileReader("test1.txt"));
             String line = reader.readLine();
             while(line != null){
                 //skipping lines containing explanation

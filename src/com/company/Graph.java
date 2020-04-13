@@ -27,8 +27,7 @@ public class Graph{
 
     public void printAdjacencyList() {
         for (int i = 0; i < V; i++) {
-            System.out.printf("Adjacency list of vertex %d is %s %s", i,
-                    adj_list.get(i), System.lineSeparator());
+            System.out.printf("Adjacency list of vertex %d is %s\n", i, adj_list.get(i));
         }
     }
 
