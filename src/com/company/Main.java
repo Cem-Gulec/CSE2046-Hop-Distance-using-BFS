@@ -1,4 +1,5 @@
 package com.company;
+
 import java.util.*;
 import java.io.*;
 import java.lang.Math;
@@ -17,15 +18,11 @@ public class Main {
         int num_laptops;
 
         //calling argument
-        File f = new File(args[0]);
-        InputStream is = new FileInputStream(f);
-        System.out.println(args[0]);
-
-        if(args.length < 1) System.out.println("Error usage file\n");
-        else System.out.println("file found\n");
+        File file = new File(args[0]);
+        Scanner scan = new Scanner(file);
 
         //reading text file
-        main.read_file();
+        main.read_file(args);
 
         //number of laptops declared in first line of the txt
         num_laptops = Integer.parseInt(file_elements.get(0));
@@ -37,9 +34,6 @@ public class Main {
                     Double.parseDouble(file_elements.get(i+2))));
         }
 
-        //Each laptop's x,y coordinate and range values
-        for(Laptop l: laptop_array)
-            System.out.println(l.getPos_x() + "  " + l.getPos_y() + "  " + l.getRange());
 
         //creating an instance of our graph representation
         //which consists vertices depending on the number of laptops
@@ -59,36 +53,42 @@ public class Main {
                 //there needs to be an edge between them
                 if(main.hop_distance(i,j) == 1) graph.add_edge(i,j);
 
-        //simply getting the information of which vertices connected to which ones
-        graph.printAdjacencyList();
-
+        //initializing BFS traverse
         main.BFS_traverse(graph.adj_list);
 
+        //displaying levels after having the BFS algorithm done
         for(int i = 0; i < levels.length; i++)
             System.out.println(levels[i]);
     }
 
+    //returns 1 if any unvisited neighbour exists corresponding to the index
+    // else 0
     public int neighbour_exist(List<List<Integer>> adj_list, int index){
 
         for(int e: adj_list.get(index))
             if(visited[e] == Boolean.FALSE) return 1;
 
-            return 0;
+        return 0;
     }
 
     public void BFS_traverse(List<List<Integer>> adj_list){
 
-        int level = 0;
-        Queue<Integer> queue = new LinkedList<>();
+        int level = 0; //initial level
+        Queue<Integer> queue = new LinkedList<>(); //queue to be used in BFS algorithm
 
         levels[0] = level;
+        //adding our initial one into queue and continuing on
         queue.add(0);
 
         //while there is still node to be visited
         while(!queue.isEmpty()){
+            //holding head of the queue
             int head = queue.peek();
 
+            //marking it as visited
             visited[head] = Boolean.TRUE;
+            //if any unvisited neighbour exists corresponding
+            // to current head traverse them as well
             if(neighbour_exist(adj_list, head) == 1)
                 if(levels[head] != 0 && queue.contains(head))
                     level = levels[head]+1;
@@ -96,6 +96,7 @@ public class Main {
                     level += 1;
 
             for(int e: adj_list.get(head)){
+                //update its level and add to the queue
                 if(visited[e] == Boolean.FALSE && levels[e] == 0){
                     queue.add(e);
                     levels[e] = level;
@@ -146,11 +147,11 @@ public class Main {
         return Math.sqrt( Math.pow(Math.abs(x_2-x_1), 2) + Math.pow(Math.abs(y_2-y_1), 2) );
     }
 
-    public void read_file(){
+    public void read_file(String[] args){
 
         BufferedReader reader;
         try{
-            reader = new BufferedReader(new FileReader("test1.txt"));
+            reader = new BufferedReader(new FileReader(args[0]));
             String line = reader.readLine();
             while(line != null){
                 //skipping lines containing explanation
