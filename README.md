@@ -1,1 +1,1 @@
-# Algoritms_Project1
+**Course name**: Analysis of Algorithms (CSE2046) 
